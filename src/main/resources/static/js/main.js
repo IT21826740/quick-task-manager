@@ -1,112 +1,74 @@
-const API_BASE = "http://localhost:8080";
-
-const userEmail = localStorage.getItem("userEmail");
-
-// Show/Hide Add Task Modal
-function showAddTaskModal() {
-    document.getElementById("taskModal").classList.remove("hidden");
-}
-function hideAddTaskModal() {
-    document.getElementById("taskModal").classList.add("hidden");
-}
-
-// Fetch userId using email
-async function getUserIdByEmail(email) {
-    const res = await fetch(`${API_BASE}/users/email/${email}`);
-    if (res.ok) {
-        const user = await res.json();
-        return user.id;
-    } else {
-        alert("User not found");
+document.addEventListener("DOMContentLoaded", () => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+        alert("Please log in first.");
+        window.location.href = "login.html";
+        return;
     }
-}
 
-// Load tasks for the user
+    loadTasks(userId);
+
+    // Handle Add Task Form Submit
+    document.getElementById("addTaskForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const task = {
+            title: document.getElementById("title").value,
+            description: document.getElementById("description").value,
+            dueDate: document.getElementById("dueDate").value,
+        };
+
+        const res = await fetch(`http://localhost:8080/users/${userId}/tasks`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(task),
+        });
+
+        if (res.ok) {
+            alert("Task added!");
+            loadTasks(userId);
+            document.getElementById("addTaskForm").reset();
+        } else {
+            alert("Error adding task.");
+        }
+    });
+
+    // Handle Close Modal
+    document.getElementById("closeModal").addEventListener("click", () => {
+        document.getElementById("taskModal").classList.add("hidden");
+    });
+});
+
 async function loadTasks(userId) {
-    const status = document.getElementById("statusFilter").value;
-    let url = `${API_BASE}/users/${userId}/tasks`;
-    if (status !== "ALL") {
-        url += `?status=${status}`;
-    }
-
-    const res = await fetch(url);
+    const res = await fetch(`http://localhost:8080/users/${userId}/tasks`);
     const tasks = await res.json();
-
-    const list = document.getElementById("taskList");
-    list.innerHTML = "";
+    const taskList = document.getElementById("taskList");
+    taskList.innerHTML = "";
 
     tasks.forEach(task => {
-        const taskDiv = document.createElement("div");
-        taskDiv.innerHTML = `
+        const taskElement = document.createElement("div");
+        taskElement.classList.add("task");
+        taskElement.innerHTML = `
       <strong>${task.title}</strong> - ${task.status}<br/>
       ${task.description}<br/>
       Due: ${task.dueDate}<br/>
       ${task.status === "PENDING" ? `<button onclick="markCompleted(${task.id})">Mark as Completed</button>` : ""}
       <hr/>
     `;
-        list.appendChild(taskDiv);
+        taskList.appendChild(taskElement);
     });
 }
 
-// Filter tasks
-async function filterTasks() {
-    const userId = await getUserIdByEmail(userEmail);
-    loadTasks(userId);
-}
-
-// Mark task as completed
 async function markCompleted(taskId) {
-    const res = await fetch(`${API_BASE}/tasks/${taskId}/status?status=COMPLETED`, {
-        method: "PUT",
+    const res = await fetch(`http://localhost:8080/tasks/${taskId}/status?status=COMPLETED`, {
+        method: "PUT"
     });
 
     if (res.ok) {
-        alert("Task marked as completed");
-        init();
+        alert("Task marked as completed.");
+        const userId = localStorage.getItem("userId");
+        loadTasks(userId);
     } else {
-        alert("Failed to update task status");
+        alert("Failed to update task.");
     }
 }
-
-// Add new task
-document.getElementById("addTaskForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const userId = await getUserIdByEmail(userEmail);
-    const task = {
-        title: document.getElementById("title").value,
-        description: document.getElementById("description").value,
-        dueDate: document.getElementById("dueDate").value,
-    };
-
-    const res = await fetch(`${API_BASE}/users/${userId}/tasks`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(task),
-    });
-
-    if (res.ok) {
-        alert("Task added");
-        document.getElementById("addTaskForm").reset();
-        hideAddTaskModal();
-        init();
-    } else {
-        alert("Failed to add task");
-    }
-});
-
-// Initial load
-async function init() {
-    const userId = await getUserIdByEmail(userEmail);
-    loadTasks(userId);
-}
-
-// Load on start
-window.onload = () => {
-    if (!userEmail) {
-        alert("Please login first.");
-        window.location.href = "login.html";
-    } else {
-        init();
-    }
-};
