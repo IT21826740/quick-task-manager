@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Quick Task Manager</title>
     <link rel="stylesheet" href="css/styles.css" />
-    <script src="js/main.js" defer></script>
+    <script defer src="js/main.js"></script>
 </head>
 <body>
 <header>
@@ -15,6 +15,7 @@
 
 <nav>
     <button onclick="toggleTaskModal()" class="add-task-btn">+ Add Task</button>
+    <a href="summary.html" class="nav-btn">Summary</a>
     <select id="statusFilter">
         <option value="ALL">All</option>
         <option value="PENDING">Pending</option>
@@ -23,6 +24,7 @@
 </nav>
 
 <main>
+    <!-- Task List -->
     <div id="taskList" class="task-container">
         <!-- Tasks will be dynamically inserted here -->
     </div>
@@ -41,26 +43,5 @@
         </form>
     </div>
 </div>
-
-<script>
-    function toggleTaskModal() {
-        document.getElementById("taskModal").classList.toggle("hidden");
-    }
-
-    function logout() {
-        localStorage.clear();
-        window.location.href = "login.html";
-    }
-
-    // Only needed if NOT already in main.js
-    document.addEventListener("DOMContentLoaded", () => {
-        const closeBtn = document.getElementById("closeModal");
-        if (closeBtn) {
-            closeBtn.addEventListener("click", () => {
-                document.getElementById("taskModal").classList.add("hidden");
-            });
-        }
-    });
-</script>
 </body>
 </html>

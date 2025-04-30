@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loadTasks(userId);
 
-    // Handle Add Task Form Submit
     document.getElementById("addTaskForm").addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -28,18 +27,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (res.ok) {
             alert("Task added!");
-            await loadTasks(userId); // reload and re-render
+            await loadTasks(userId);
             document.getElementById("addTaskForm").reset();
-            closeModal(); // Close modal after adding task
+            closeModal();
         } else {
             alert("Error adding task.");
         }
     });
 
-    // Handle Filter Change
     document.getElementById("statusFilter").addEventListener("change", filterTasks);
-
-    // Handle Close Modal
     document.getElementById("closeModal").addEventListener("click", closeModal);
 });
 
@@ -57,20 +53,22 @@ function logout() {
 }
 
 async function loadTasks(userId) {
-    const res = await fetch(`http://localhost:8080/users/${userId}/tasks`);
-    allTasks = await res.json(); // store globally
-    filterTasks(); // Apply selected filter after loading
+    try {
+        const res = await fetch(`http://localhost:8080/users/${userId}/tasks`);
+        if (!res.ok) throw new Error("Failed to fetch tasks");
+        allTasks = await res.json();
+        filterTasks();
+    } catch (error) {
+        alert("Error loading tasks.");
+    }
 }
 
 function filterTasks() {
     const selectedStatus = document.getElementById("statusFilter").value;
-
-    if (selectedStatus === "ALL") {
-        renderTasks(allTasks);
-    } else {
-        const filtered = allTasks.filter(task => task.status === selectedStatus);
-        renderTasks(filtered);
-    }
+    const filtered = selectedStatus === "ALL"
+        ? allTasks
+        : allTasks.filter(task => task.status === selectedStatus);
+    renderTasks(filtered);
 }
 
 function renderTasks(tasksToRender) {
@@ -85,13 +83,24 @@ function renderTasks(tasksToRender) {
     tasksToRender.forEach(task => {
         const taskElement = document.createElement("div");
         taskElement.classList.add("task");
+        taskElement.setAttribute("data-status", task.status);
+
         taskElement.innerHTML = `
-      <strong>${task.title}</strong> - ${task.status}<br/>
-      ${task.description}<br/>
-      Due: ${task.dueDate}<br/>
-      ${task.status === "PENDING" ? `<button onclick="markCompleted(${task.id})">Mark as Completed</button>` : "<span style='color:green;'>✔ Completed</span>"}
-      <hr/>
-    `;
+            <div class="task-header">
+                <h3 class="task-title">${task.title}</h3>
+                <span class="task-status ${task.status.toLowerCase()}">${task.status}</span>
+            </div>
+            <p class="task-description">${task.description}</p>
+            <div class="task-footer">
+                <span class="task-due">Due: ${formatDate(task.dueDate)}</span>
+                ${
+            task.status === "PENDING"
+                ? `<button onclick="markCompleted(${task.id})" class="complete-btn">Mark Completed</button>`
+                : ""
+        }
+                <button onclick="deleteTask(${task.id})" class="delete-btn">Delete</button>
+            </div>
+        `;
         taskList.appendChild(taskElement);
     });
 }
@@ -102,10 +111,30 @@ async function markCompleted(taskId) {
     });
 
     if (res.ok) {
-        alert("Task marked as completed.");
         const userId = localStorage.getItem("userId");
-        await loadTasks(userId); // Reload and re-filter
+        await loadTasks(userId);
     } else {
         alert("Failed to update task.");
     }
+}
+
+async function deleteTask(taskId) {
+    if (!confirm("Are you sure you want to delete this task?")) return;
+
+    const res = await fetch(`http://localhost:8080/tasks/${taskId}`, {
+        method: "DELETE"
+    });
+
+    if (res.ok) {
+        const userId = localStorage.getItem("userId");
+        await loadTasks(userId);
+    } else {
+        alert("Failed to delete task.");
+    }
+}
+
+function formatDate(dateString) {
+    if (!dateString) return "No due date";
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
 }

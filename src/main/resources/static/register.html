@@ -28,18 +28,23 @@
       password: document.getElementById("password").value
     };
 
-    const res = await fetch("http://localhost:8080/users/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user)
-    });
+    try {
+      const res = await fetch("http://localhost:8080/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user)
+      });
 
-    if (res.ok) {
-      alert("Registration successful! Please log in.");
-      window.location.href = "login.html";
-    } else {
-      const error = await res.text();
-      alert("Registration failed: " + error);
+      if (res.ok) {
+        alert("Registration successful! Please log in.");
+        window.location.href = "login.html";
+      } else {
+        const error = await res.text();
+        throw new Error(error);
+      }
+    } catch (error) {
+      console.error("Error registering:", error);
+      alert("Registration failed: " + error.message);
     }
   });
 </script>
