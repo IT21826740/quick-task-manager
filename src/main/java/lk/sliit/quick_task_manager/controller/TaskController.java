@@ -3,6 +3,7 @@ package lk.sliit.quick_task_manager.controller;
 import lk.sliit.quick_task_manager.controller.dto.requestDto.TaskRequestDto;
 import lk.sliit.quick_task_manager.controller.dto.respnseDto.TaskResponseDto;
 import lk.sliit.quick_task_manager.exception.ResourceNotFoundException;
+import lk.sliit.quick_task_manager.repository.TaskRepository;
 import lk.sliit.quick_task_manager.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,11 @@ public class TaskController {
 
         @Autowired
         private  TaskService taskService;
+    @Autowired
+    private TaskRepository taskRepository;
 
 
-        @PostMapping("/users/{userId}/tasks")
+    @PostMapping("/users/{userId}/tasks")
         public ResponseEntity<TaskResponseDto> addTask(@PathVariable Long userId,
                                                        @RequestBody TaskRequestDto requestDto) {
             try {
@@ -52,5 +55,10 @@ public class TaskController {
             } catch (IllegalArgumentException e) {
                 return ResponseEntity.badRequest().body(e.getMessage());
             }
+        }
+
+        @DeleteMapping("/tasks/{task-id}")
+        public void deleteTask(@PathVariable("task-id") Long taskId)throws ResourceNotFoundException {
+            taskService.deleteByTaskId(taskId);
         }
     }

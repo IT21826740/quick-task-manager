@@ -82,5 +82,14 @@ public class TaskServiceImpl implements TaskService {
             throw new IllegalArgumentException("Invalid status value. Allowed values: PENDING, COMPLETED");
         }
     }
+
+    @Override
+    public void deleteByTaskId(Long taskId) throws ResourceNotFoundException {
+
+        if(!taskRepository.existsById(taskId)) {
+            throw new ResourceNotFoundException("Task not found");
+        }
+        taskRepository.deleteById(taskId);
+    }
 }
 
