@@ -1,6 +1,7 @@
 package lk.sliit.quick_task_manager.controller.dto.requestDto;
 
 import jakarta.validation.constraints.FutureOrPresent;
+import lk.sliit.quick_task_manager.model.options.TaskStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,6 @@ public class TaskRequestDto {
     @FutureOrPresent(message = "Due date must be today or a future date")
     private LocalDate dueDate;
 
-    public void setStatus(String pending) {
-    }
+    private TaskStatus status;
+    
 }
