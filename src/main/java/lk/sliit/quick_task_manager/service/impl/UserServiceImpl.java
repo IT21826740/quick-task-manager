@@ -8,15 +8,15 @@ import lk.sliit.quick_task_manager.exception.UserAlreadyExistsException;
 import lk.sliit.quick_task_manager.model.User;
 import lk.sliit.quick_task_manager.repository.UserRepository;
 import lk.sliit.quick_task_manager.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl  implements UserService {
 
-    @Autowired
     private UserRepository userRepository;
 
     @Override

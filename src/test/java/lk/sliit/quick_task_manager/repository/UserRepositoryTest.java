@@ -3,7 +3,6 @@ package lk.sliit.quick_task_manager.repository;
 import lk.sliit.quick_task_manager.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -19,9 +18,6 @@ public class UserRepositoryTest {
 
     @Mock
     private UserRepository userRepository;
-
-    @InjectMocks
-    private UserRepositoryTest userRepositoryTest;
 
     private User testUser;
 
