@@ -1,5 +1,3 @@
-Great! Here's your updated `README.md` with a **"🛠️ Steps to Run the Project"** section added as requested:
-
 ---
 
 # Quick Task Manager
