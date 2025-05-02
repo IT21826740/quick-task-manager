@@ -174,6 +174,11 @@ src -> main -> resources -> static
 
 ---
 
+## 📌 Screenshots
+
+![Screenshot From 2025-05-01 17-10-34](https://github.com/user-attachments/assets/93154035-af71-43c5-bf01-cbcca28979cf)
+![Screenshot From 2025-05-01 17-18-14](https://github.com/user-attachments/assets/8c59727e-c651-4b2d-8f7b-6ec5f7a561ae)
+
 ## 📬 Feedback & Contributions
 
 Feel free to fork the repo, raise issues, or submit pull requests.
