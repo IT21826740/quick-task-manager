@@ -1,197 +1,186 @@
+Great! Here's your updated `README.md` with a **"🛠️ Steps to Run the Project"** section added as requested:
 
 ---
 
-```markdown
 # Quick Task Manager
 
-**Quick Task Manager** is a simple, user-friendly web application that helps users create, manage, and track their tasks effectively. Built using Spring Boot (backend) and vanilla JavaScript with Chart.js (frontend), the app provides real-time task filtering, a dashboard with visual analytics, and user-specific task storage.
+**Quick Task Manager** is a simple and efficient task management web app that allows users to add, manage, and track their tasks with ease. The application supports task filtering, a summary dashboard with visual stats (using Chart.js), and user-specific task tracking via backend API integration.
 
----
+## 🌟 Features
 
-## 🚀 Features
+* ✅ Add and manage tasks
+* 📋 Filter tasks by **All**, **Pending**, or **Completed**
+* 📊 Task summary dashboard with bar chart (Chart.js)
+* 🔐 User-specific task loading based on `userId` stored in `localStorage`
+* ⚡ Backend integration using REST API (Spring Boot)
 
-- ✅ Add and manage tasks
-- 🔍 Filter tasks by **All**, **Pending**, or **Completed**
-- 📊 Visual summary dashboard using Chart.js
-- 🔐 User-specific task loading using `localStorage`-based `userId`
-- 🧪 Unit & integration testing with code coverage reports
-- 📈 Static code analysis via SonarQube
-
----
-
-## 🛠️ Tech Stack
+## 🔧 Technologies Used
 
 ### Frontend
-- HTML, CSS, JavaScript
-- Chart.js for charts
+
+* HTML, CSS, JavaScript
+* Chart.js for data visualization
 
 ### Backend
-- Java Spring Boot
-- MySQL (Docker-based)
 
-### Tools & Testing
-- Maven
-- JaCoCo (Code Coverage)
-- SonarQube (Static Code Analysis)
-- Docker (MySQL, SonarQube)
+* Java Spring Boot REST API (running on `http://localhost:8080`)
 
----
+### Others
+
+* LocalStorage for storing userId
 
 ## 📁 Project Structure
 
 ```
-
 quick-task-manager/
 │
-├── src/
-│   ├── main/
-│   │   ├── java/           # Spring Boot source code
-│   │   ├── resources/
-│   │   │   ├── static/     # Frontend HTML, JS, CSS files
-│   │   │   └── application.properties
-│   ├── test/               # Unit & integration tests
-│
-├── pom.xml                 # Maven config
-├── README.md               # Project documentation
-└── ...
-
-````
+├── index.html          # Main task list page
+├── summary.html        # Summary dashboard with chart
+├── main.js             # Handles task logic and chart rendering
+├── style.css           # UI styling
+└── README.md           # Project documentation
+```
 
 ---
 
-## 🧑‍💻 How to Run the Project
+## 🧪 Testing
 
-### 🔄 Backend Setup (Spring Boot + MySQL in Docker)
-
-1. **Start Docker & DB Container**  
-   Make sure Docker is running and MySQL container is started.
-
-2. **Open Project in IntelliJ IDEA or IDE of your choice**
-
-3. **Access MySQL Container**
-   ```bash
-   docker exec -it <container_name> /bin/bash
-   mysql -u root -p
-   # Enter your password
-````
-
-4. **Run Spring Boot App**
-
-   ```bash
-   mvn spring-boot:run
-   ```
+- Backend tested using JUnit and Spring Boot Test
+- Integration tests for API endpoints
+- Validation on user inputs for both frontend and backend
 
 ---
 
-### 🌐 Frontend Setup
 
-1. **Run Frontend Locally**
-   In your terminal:
-
+### Backend (Spring Boot)
+1. Clone the repository:
    ```bash
-   cd /path/to/project
-   google-chrome http://localhost:8080/login.html
-   ```
-
-2. **Frontend Files Location**
-
-   ```
-   src/main/resources/static/
-   ├── index.html         # Task list
-   ├── summary.html       # Task summary with chart
-   ├── login.html         # Login interface
-   ├── main.js            # Task logic & chart rendering
-   └── style.css          # Basic styling
-   ```
-
-3. **Set userId in Local Storage**
-   Open browser console and enter:
-
-   ```js
-   localStorage.setItem("userId", "your-user-id");
-   ```
+   git clone https://github.com/IT21826740/quick-task-manager.git
+   cd quick-task-manager/backend
 
 ---
 
-## 🧪 Testing & Code Coverage
+## 🛠️ Steps to Run the Project
 
-1. **Run All Tests**
+1️⃣ **Start Docker and Database Connection**
 
-   ```bash
-   mvn clean test
-   ```
+* Make sure Docker is running.
+* Start the database container (e.g., MySQL).
 
-2. **Generate JaCoCo Code Coverage Report**
+2️⃣ **Open the Project in IntelliJ IDEA**
 
-   ```bash
-   mvn jacoco:report
-   ```
+* Import the project as a Maven project.
 
-3. **View Report**
-   Open the file:
+3️⃣ **Navigate to Project Path**
 
-   ```
-   target/site/jacoco/index.html
-   ```
+```bash
+cd /path/to/your/project
+```
 
----
+4️⃣ **Start the Database Container**
 
-## 📊 SonarQube Setup (Optional)
+```bash
+docker exec -it <container_name> /bin/bash
+mysql -u root -p
+# Enter your password when prompted
+```
 
-1. **Start Local SonarQube Server**
+5️⃣ **Run the Spring Boot Application**
 
-   ```bash
-   docker run -d --name sonarqube -p 9000:9000 sonarqube:latest
-   ```
+```bash
+mvn spring-boot:run
+```
 
-2. **Login to SonarQube**
+6️⃣ **Run Test Cases (if needed)**
 
-   * Visit: [http://localhost:9000](http://localhost:9000)
-   * Default credentials: `admin` / `admin`
-   * Change password when prompted
+* Find the `test` directory in your project structure.
+* Run all test cases from IntelliJ or use Maven:
 
-3. **Generate Sonar Token**
+```bash
+mvn test
+```
 
-   * Go to **My Account > Security**
-   * Create a new token
+7️⃣ **Generate Code Coverage Report**
 
-4. **Run Sonar Analysis**
+```bash
+mvn clean test
+# Check the `target` directory. If `site` folder is missing, create it manually.
+```
 
-   ```bash
-   mvn sonar:sonar \
-     -Dsonar.projectKey=quick-task-manager \
-     -Dsonar.host.url=http://localhost:9000 \
-     -Dsonar.login=<YOUR_SONARQUBE_TOKEN> \
-     -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-   ```
+8️⃣ **Create JaCoCo Coverage Report**
 
-5. **View Analysis Results**
+```bash
+mvn jacoco:report
+```
 
-   * Open: [http://localhost:9000](http://localhost:9000)
-   * Select your project to view metrics:
+9️⃣ **View Code Coverage**
 
-     * Code coverage
-     * Bugs, vulnerabilities
-     * Code smells and duplications
-
----
-
-## 🙌 Contributing
-
-Contributions are welcome! Feel free to:
-
-* Fork the repo
-* Open issues
-* Submit pull requests
-
----
-
----
-
-## 📬 Contact
-
-Have any questions or suggestions?
-Feel free to reach out or open an issue in the repository.
+* Open the following file in your browser:
 
 ```
+target/site/jacoco/index.html
+```
+
+* You can also find the XML version:
+
+```
+target/site/jacoco/jacoco.xml
+```
+
+🔟 **Run Static Code Analysis with SonarQube**
+
+* Start SonarQube locally using Docker:
+
+```bash
+docker run -d --name sonarqube -p 9000:9000 sonarqube:latest
+```
+
+* Visit: [http://localhost:9000](http://localhost:9000)
+  Default login: `admin / admin`
+  *(Change password in Security page)*
+
+1️⃣1️⃣ **Run Sonar Analysis**
+
+```bash
+mvn sonar:sonar \
+  -Dsonar.projectKey=quick-task-manager \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=<YOUR_SONARQUBE_TOKEN> \
+  -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+```
+
+1️⃣2️⃣ **View Sonar Results**
+
+* Go to: [http://localhost:9000](http://localhost:9000)
+* View:
+
+  * ✅ Code Coverage %
+  * 🚨 Code Smells
+  * 🐞 Bugs
+  * 🔐 Vulnerabilities
+  * 🔁 Duplications
+
+1️⃣3️⃣ **Run the Frontend**
+
+```bash
+cd /path/to/your/project
+google-chrome http://localhost:8080/login.html
+```
+
+1️⃣4️⃣ **Find Frontend Code**
+
+* Navigate to:
+
+```
+src -> main -> resources -> static
+```
+
+---
+
+## 📬 Feedback & Contributions
+
+Feel free to fork the repo, raise issues, or submit pull requests.
+Your feedback is always welcome!
+
+---
 
