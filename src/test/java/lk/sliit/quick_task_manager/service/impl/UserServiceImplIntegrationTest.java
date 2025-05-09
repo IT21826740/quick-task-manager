@@ -50,7 +50,6 @@ public class UserServiceImplIntegrationTest {
         request.setEmail("newuser@example.com");
         request.setPassword("newpassword");
 
-        // Call the service layer
         UserResponseDto response = userService.register(request);
 
         assertNotNull(response);
@@ -63,7 +62,6 @@ public class UserServiceImplIntegrationTest {
         UserRegisterRequestDto request = new UserRegisterRequestDto();
         request.setEmail("test@example.com");
 
-        // Call the service layer
         assertThrows(UserAlreadyExistsException.class, () -> userService.register(request));
     }
 
@@ -73,7 +71,6 @@ public class UserServiceImplIntegrationTest {
         request.setEmail("test@example.com");
         request.setPassword("password123");
 
-        // Call the service layer
         UserResponseDto response = userService.login(request);
 
         assertNotNull(response);
@@ -87,7 +84,6 @@ public class UserServiceImplIntegrationTest {
         request.setEmail("test@example.com");
         request.setPassword("wrongpassword");
 
-        // Call the service layer
         assertThrows(ResourceNotFoundException.class, () -> userService.login(request));
     }
 
@@ -97,7 +93,6 @@ public class UserServiceImplIntegrationTest {
         request.setEmail("nonexistent@example.com");
         request.setPassword("password123");
 
-        // Call the service layer
         assertThrows(ResourceNotFoundException.class, () -> userService.login(request));
     }
 }

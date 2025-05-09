@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Coverage Evidence</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #1e293b;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4399ee;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-btn {
+            display: inline-block;
+            margin-top: 0.5rem;
+            background-color: #ffffff;
+            color: #4399ee;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            border: 1px solid #ffffff;
+        }
+        .nav-btn:hover {
+            background-color: #e0e7ff;
+        }
+        main.coverage-main {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        section {
+            margin-bottom: 2rem;
+        }
+        h2 {
+            color: #4399ee;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+        .coverage-img {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Code Coverage Evidence</h1>
+    <a href="index.html" class="nav-btn">← Back to Task Manager</a>
+</header>
+
+<main class="coverage-main">
+    <section>
+        <h2>JaCoCo Report Screenshot</h2>
+        <img src="images/jacoco-screenshot.png" alt="JaCoCo Report Screenshot" class="coverage-img">
+    </section>
+
+    <section>
+        <h2>SonarQube Report Screenshot</h2>
+        <img src="images/sonarqube-screenshot.png" alt="SonarQube Report Screenshot" class="coverage-img">
+    </section>
+</main>
+</body>
+</html>

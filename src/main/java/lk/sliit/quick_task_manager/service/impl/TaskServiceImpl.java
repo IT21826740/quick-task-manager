@@ -60,7 +60,7 @@ public class TaskServiceImpl implements TaskService {
             responseDto.setTitle(task.getTitle());
             responseDto.setDescription(task.getDescription());
             responseDto.setDueDate(task.getDueDate());
-            responseDto.setStatus(task.getStatus().name()); // ✅ ENUM to String
+            responseDto.setStatus(task.getStatus().name());
 
             taskResponseDtos.add(responseDto);
         }
