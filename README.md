@@ -178,8 +178,10 @@ src -> main -> resources -> static
 
 [Screencast From 2025-05-11 17-14-23.webm](https://github.com/user-attachments/assets/e06d6837-414b-4dd8-90fb-889e908217f6)
 
-![Screenshot From 2025-05-01 17-10-34](https://github.com/user-attachments/assets/93154035-af71-43c5-bf01-cbcca28979cf)
-![Screenshot From 2025-05-01 17-18-14](https://github.com/user-attachments/assets/8c59727e-c651-4b2d-8f7b-6ec5f7a561ae)
+![jacoco-screenshot](https://github.com/user-attachments/assets/f1ce9ed1-1c48-436f-81dd-714dfeb1c898)
+
+![sonarqube-screenshot](https://github.com/user-attachments/assets/d3c2b560-00c8-4609-9cd0-6942ce668e28)
+
 
 ## 📬 Feedback & Contributions
 
