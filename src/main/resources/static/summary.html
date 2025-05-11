@@ -4,41 +4,99 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Task Summary</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
     <link rel="stylesheet" href="css/styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script defer src="js/summary.js"></script>
 </head>
 <body>
 <header>
-    <h1>Task Summary</h1>
-    <a href="index.html" class="back-btn">← Back to Tasks</a>
-    <button onclick="logout()" class="logout-btn">Logout</button>
+    <h1 class="header-title">Task Summary</h1>
+    <button onclick="logout()" class="btn btn-danger">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
 </header>
 
-<main class="summary-main">
-    <div class="summary-grid">
-        <div class="summary-card">
-            <h3>Total Tasks</h3>
-            <p id="totalCount">0</p>
+<nav class="navbar">
+    <div class="nav-actions">
+        <a href="index.html" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Tasks
+        </a>
+        <a href="summary.html" class="btn btn-secondary">
+            <i class="fas fa-chart-bar"></i> Summary
+        </a>
+        <a href="coverage.html" class="btn btn-secondary">
+            <i class="fas fa-code"></i> Coverage
+        </a>
+        <a href="http://localhost:9000/dashboard?id=quick-task-manager&codeScope=overall"
+           class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-chart-line"></i> SonarQube
+        </a>
+    </div>
+</nav>
+
+<main class="main-content">
+    <div class="dashboard">
+        <div class="metric-card">
+            <h3 class="metric-title">Total Tasks</h3>
+            <p class="metric-value" id="totalCount">0</p>
         </div>
-        <div class="summary-card">
-            <h3>Pending</h3>
-            <p id="pendingCount">0</p>
+        <div class="metric-card">
+            <h3 class="metric-title">Pending</h3>
+            <p class="metric-value" id="pendingCount">0</p>
         </div>
-        <div class="summary-card">
-            <h3>Completed</h3>
-            <p id="completedCount">0</p>
+        <div class="metric-card">
+            <h3 class="metric-title">Completed</h3>
+            <p class="metric-value" id="completedCount">0</p>
         </div>
-        <div class="summary-card">
-            <h3>Completion Rate</h3>
-            <p id="completionRate">0%</p>
+        <div class="metric-card">
+            <h3 class="metric-title">Completion Rate</h3>
+            <p class="metric-value" id="completionRate">0%</p>
         </div>
     </div>
 
     <div class="chart-container">
-        <h2>Pending Tasks by Due Date</h2>
+        <h2 class="chart-title">Pending Tasks by Due Date</h2>
         <canvas id="lineChart"></canvas>
     </div>
 </main>
+
+<!-- Footer Section -->
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3 class="footer-title">Quick Task Manager</h3>
+            <p class="footer-text">Manage your tasks efficiently with our simple and intuitive task management tool.</p>
+        </div>
+        <div class="footer-section">
+            <h3 class="footer-title">Quick Links</h3>
+            <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="summary.html">Summary</a></li>
+                <li><a href="coverage.html">Coverage</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3 class="footer-title">Contact</h3>
+            <p class="footer-text">
+                <i class="fas fa-envelope"></i> support@quicktaskmanager.com<br>
+                <i class="fas fa-phone"></i> (123) 456-7890
+            </p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 Quick Task Manager. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast">
+    <span class="toast-icon"></span>
+    <span class="toast-message"></span>
+    <span class="toast-close">
+        <i class="fas fa-times"></i>
+    </span>
+</div>
 </body>
 </html>

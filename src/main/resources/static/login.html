@@ -4,24 +4,81 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Login - Quick Task Manager</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
     <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-<main class="form-container">
-    <h1>Login</h1>
-    <form id="loginForm">
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-    </form>
-    <p>Don't have an account? <a href="register.html">Register here</a></p>
-</main>
+<div class="auth-container">
+    <div class="auth-card">
+        <h1 class="auth-title">Login</h1>
+        <form id="loginForm" class="auth-form">
+            <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-input" placeholder="Enter your email" required />
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" class="form-input" placeholder="Enter your password" required />
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </form>
+        <p class="auth-footer">
+            Don't have an account? <a href="register.html" class="auth-link">Register here</a>
+        </p>
+    </div>
+</div>
+
+<!-- Footer Section -->
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3 class="footer-title">Quick Task Manager</h3>
+            <p class="footer-text">Manage your tasks efficiently with our simple and intuitive task management tool.</p>
+        </div>
+
+        <div class="footer-section">
+            <h3 class="footer-title">Contact</h3>
+            <p class="footer-text">
+                <i class="fas fa-envelope"></i> support@quicktaskmanager.com<br>
+                <i class="fas fa-phone"></i> (123) 456-7890
+            </p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 Quick Task Manager. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast">
+    <span class="toast-icon"></span>
+    <span class="toast-message"></span>
+    <span class="toast-close">
+        <i class="fas fa-times"></i>
+    </span>
+</div>
 
 <script>
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
         e.preventDefault();
-        const email = document.getElementById("email").value;
+        const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
+
+        // Basic validation
+        if (!email || !password) {
+            showToast("Please fill in all fields", 'error');
+            return;
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showToast("Please enter a valid email address", 'error');
+            return;
+        }
 
         try {
             const res = await fetch("http://localhost:8080/users/login", {
@@ -40,8 +97,40 @@
             }
         } catch (error) {
             console.error("Error logging in:", error);
-            alert("Invalid login. Please try again.");
+            showToast("Invalid login. Please try again.", 'error');
         }
+    });
+
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        const toastIcon = toast.querySelector('.toast-icon');
+        const toastMessage = toast.querySelector('.toast-message');
+        const toastClose = toast.querySelector('.toast-close');
+
+        toast.className = `toast ${type}`;
+        toastMessage.textContent = message;
+
+        if (type === 'success') {
+            toastIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+        } else {
+            toastIcon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+        }
+
+        toast.classList.add('show');
+
+        // Add event listener to close button
+        toastClose.addEventListener('click', function() {
+            toast.classList.remove('show');
+        });
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    // Initialize toast close functionality
+    document.querySelector(".toast-close").addEventListener("click", function() {
+        document.getElementById('toast').classList.remove('show');
     });
 </script>
 </body>

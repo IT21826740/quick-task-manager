@@ -11,4 +11,5 @@ public interface TaskService {
     List<TaskResponseDto> getUserTasks(Long userId) throws ResourceNotFoundException;
     void updateTaskStatus(Long taskId, String status) throws ResourceNotFoundException;
     void deleteByTaskId(Long taskId) throws ResourceNotFoundException;
+    void updateByTaskId(Long taskId, TaskRequestDto requestDto) throws ResourceNotFoundException;
 }

@@ -156,4 +156,45 @@ public class TaskServiceImplIntegrationTest {
         // When trying to delete a task that doesn't exist
         assertThrows(ResourceNotFoundException.class, () -> taskService.deleteByTaskId(999L));
     }
+
+    @Test
+    public void updateByTaskId_Success() throws ResourceNotFoundException {
+        // Given a task for the test user
+        Task task = new Task();
+        task.setTitle("Old Title");
+        task.setDescription("Old Description");
+        task.setDueDate(LocalDate.now().plusDays(5));
+        task.setStatus(TaskStatus.PENDING);
+        task.setUser(testUser);
+        taskRepository.save(task);
+
+        // Create the update request
+        TaskRequestDto updateDto = new TaskRequestDto();
+        updateDto.setTitle("Updated Title");
+        updateDto.setDescription("Updated Description");
+        updateDto.setDueDate(LocalDate.now().plusDays(10));
+
+        // When
+        taskService.updateByTaskId(task.getId(), updateDto);
+
+        // Then
+        Task updatedTask = taskRepository.findById(task.getId()).orElseThrow();
+        assertEquals("Updated Title", updatedTask.getTitle());
+        assertEquals("Updated Description", updatedTask.getDescription());
+        assertEquals(LocalDate.now().plusDays(10), updatedTask.getDueDate());
+    }
+
+    @Test
+    public void updateByTaskId_TaskNotFound_ThrowsException() {
+        // When & Then
+        TaskRequestDto updateDto = new TaskRequestDto();
+        updateDto.setTitle("Title");
+        updateDto.setDescription("Description");
+        updateDto.setDueDate(LocalDate.now().plusDays(5));
+
+        assertThrows(ResourceNotFoundException.class, () -> {
+            taskService.updateByTaskId(999L, updateDto);
+        });
+    }
+
 }

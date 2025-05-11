@@ -122,4 +122,46 @@ class TaskServiceImplUnitTest {
             taskService.deleteByTaskId(999L);
         });
     }
+
+    @Test
+    void updateByTaskId_ShouldUpdateIfTaskExists() throws ResourceNotFoundException {
+        Long taskId = 300L;
+        Task existingTask = new Task();
+        existingTask.setId(taskId);
+        existingTask.setTitle("Old Title");
+        existingTask.setDescription("Old Description");
+        existingTask.setDueDate(LocalDate.of(2025, 1, 1));
+
+        TaskRequestDto requestDto = new TaskRequestDto();
+        requestDto.setTitle("New Title");
+        requestDto.setDescription("New Description");
+        requestDto.setDueDate(LocalDate.of(2025, 12, 31));
+
+        when(taskRepository.findById(taskId)).thenReturn(Optional.of(existingTask));
+        when(taskRepository.save(any(Task.class))).thenReturn(existingTask);
+
+        taskService.updateByTaskId(taskId, requestDto);
+
+        assertEquals("New Title", existingTask.getTitle());
+        assertEquals("New Description", existingTask.getDescription());
+        assertEquals(LocalDate.of(2025, 12, 31), existingTask.getDueDate());
+
+        verify(taskRepository, times(1)).save(existingTask);
+    }
+
+    @Test
+    void updateByTaskId_ShouldThrowIfTaskNotFound() {
+        Long taskId = 999L;
+        TaskRequestDto requestDto = new TaskRequestDto();
+        requestDto.setTitle("Title");
+
+        when(taskRepository.findById(taskId)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> {
+            taskService.updateByTaskId(taskId, requestDto);
+        });
+
+        verify(taskRepository, never()).save(any(Task.class));
+    }
+
 }

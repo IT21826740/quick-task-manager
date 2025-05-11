@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -90,6 +91,21 @@ public class TaskServiceImpl implements TaskService {
             throw new ResourceNotFoundException("Task not found");
         }
         taskRepository.deleteById(taskId);
+    }
+
+    @Override
+    public void updateByTaskId(Long taskId, TaskRequestDto requestDto) throws ResourceNotFoundException {
+        Optional<Task> optionalTask = taskRepository.findById(taskId);
+        if(optionalTask.isEmpty()) {
+            throw new ResourceNotFoundException("Task not found");
+        }else {
+            Task task = optionalTask.get();
+            task.setTitle(requestDto.getTitle());
+            task.setDescription(requestDto.getDescription());
+            task.setDueDate(requestDto.getDueDate());
+
+            taskRepository.save(task);
+        }
     }
 }
 

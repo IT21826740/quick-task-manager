@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -42,7 +43,7 @@ class TaskControllerIntegrationTest {
 
         User user = new User();
         user.setName("taskuser");
-        user.setEmail("task@example.com");
+        user.setEmail("task_" + UUID.randomUUID() + "@example.com");  // Unique email
         user.setPassword("taskpass");
         userRepository.save(user);
         userId = user.getId();
@@ -143,7 +144,7 @@ class TaskControllerIntegrationTest {
 
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/tasks/{task-id}", taskId)
-        ).andExpect(status().isOk()); // or isNoContent() based on your implementation
+        ).andExpect(status().isOk());
     }
 
     @Test
@@ -162,5 +163,42 @@ class TaskControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(taskBody)
         ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Update a task by ID")
+    public void testUpdateTaskById() throws Exception {
+        // First, create a task
+        String originalTask = String.format("""
+                {
+                  "title": "Original Title",
+                  "description": "Original Description",
+                  "dueDate": "%s"
+                }
+                """, LocalDate.now().plusDays(3));
+
+        var result = mockMvc.perform(
+                MockMvcRequestBuilders.post("/users/{userId}/tasks", userId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(originalTask)
+        ).andExpect(status().isOk()).andReturn();
+
+        Integer taskIdInt = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+        Long taskId = taskIdInt.longValue();
+
+        // Then, update it
+        String updatedTask = String.format("""
+                {
+                  "title": "Updated Title",
+                  "description": "Updated Description",
+                  "dueDate": "%s"
+                }
+                """, LocalDate.now().plusDays(7));
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/tasks/{task-id}", taskId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedTask)
+        ).andExpect(status().isOk());
     }
 }

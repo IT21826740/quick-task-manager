@@ -1,81 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Code Coverage Evidence</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #1e293b;
-            background-color: #f8fafc;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #4399ee;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .nav-btn {
-            display: inline-block;
-            margin-top: 0.5rem;
-            background-color: #ffffff;
-            color: #4399ee;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-            border: 1px solid #ffffff;
-        }
-        .nav-btn:hover {
-            background-color: #e0e7ff;
-        }
-        main.coverage-main {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 1rem;
-        }
-        section {
-            margin-bottom: 2rem;
-        }
-        h2 {
-            color: #4399ee;
-            margin-bottom: 0.75rem;
-            font-size: 1.25rem;
-        }
-        .coverage-img {
-            display: block;
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            object-fit: contain;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            margin-top: 0.5rem;
-        }
-    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
 <header>
-    <h1>Code Coverage Evidence</h1>
-    <a href="index.html" class="nav-btn">← Back to Task Manager</a>
+    <h1 class="header-title">Code Coverage Evidence</h1>
+    <button onclick="logout()" class="btn btn-danger">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
 </header>
 
-<main class="coverage-main">
-    <section>
-        <h2>JaCoCo Report Screenshot</h2>
-        <img src="images/jacoco-screenshot.png" alt="JaCoCo Report Screenshot" class="coverage-img">
-    </section>
+<nav class="navbar">
+    <div class="nav-actions">
+        <a href="index.html" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Tasks
+        </a>
+        <a href="summary.html" class="btn btn-secondary">
+            <i class="fas fa-chart-bar"></i> Summary
+        </a>
+        <a href="coverage.html" class="btn btn-secondary">
+            <i class="fas fa-code"></i> Coverage
+        </a>
+        <a href="http://localhost:9000/dashboard?id=quick-task-manager&codeScope=overall"
+           class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-chart-line"></i> SonarQube
+        </a>
+    </div>
+</nav>
 
-    <section>
-        <h2>SonarQube Report Screenshot</h2>
-        <img src="images/sonarqube-screenshot.png" alt="SonarQube Report Screenshot" class="coverage-img">
-    </section>
+<main class="main-content">
+    <div class="card">
+        <h2 class="card-title">
+            <i class="fas fa-chart-pie"></i> JaCoCo Report
+        </h2>
+        <img src="images/jacoco-screenshot.png" alt="JaCoCo Report Screenshot" class="card-image">
+    </div>
+
+    <div class="card">
+        <h2 class="card-title">
+            <i class="fas fa-chart-line"></i> SonarQube Report
+        </h2>
+        <img src="images/sonarqube-screenshot.png" alt="SonarQube Report Screenshot" class="card-image">
+    </div>
 </main>
+
+<!-- Footer Section -->
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3 class="footer-title">Quick Task Manager</h3>
+            <p class="footer-text">Manage your tasks efficiently with our simple and intuitive task management tool.</p>
+        </div>
+        <div class="footer-section">
+            <h3 class="footer-title">Quick Links</h3>
+            <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="summary.html">Summary</a></li>
+                <li><a href="coverage.html">Coverage</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3 class="footer-title">Contact</h3>
+            <p class="footer-text">
+                <i class="fas fa-envelope"></i> support@quicktaskmanager.com<br>
+                <i class="fas fa-phone"></i> (123) 456-7890
+            </p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 Quick Task Manager. All rights reserved.(K.D.DILINI)</p>
+    </div>
+</footer>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast">
+    <span class="toast-icon"></span>
+    <span class="toast-message"></span>
+    <span class="toast-close">
+        <i class="fas fa-times"></i>
+    </span>
+</div>
+
+<script>
+    function logout() {
+        // Clear any auth tokens/session data
+        localStorage.removeItem('userToken');
+        // Redirect to login page
+        window.location.href = 'login.html';
+    }
+</script>
 </body>
 </html>
